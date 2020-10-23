@@ -29,7 +29,7 @@ namespace TDFitWebApi.Controllers
                 .ToList(); // pod ta zmienną są dane z bazy
             var dietDtos = mapper.Map<List<DietDetailsDto>>(diets);
 
-            return Ok(dietDtos); // zwracam klientowi liste diet /  ze statusem 200 
+            return Ok(dietDtos); // zwracam klientowi liste diet / ze statusem 200 
         }
 
         [HttpGet("{name}")]
