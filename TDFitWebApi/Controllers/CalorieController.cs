@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,6 +12,7 @@ using TDFitWebApi.Models;
 namespace TDFitWebApi.Controllers
 {
     [Route("api/diet/{dietName}/calorie")]
+    [Authorize]
     public class CalorieController : ControllerBase
     {
         private readonly TDFitContext tDFitContext;

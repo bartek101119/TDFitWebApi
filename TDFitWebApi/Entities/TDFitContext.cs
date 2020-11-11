@@ -11,6 +11,8 @@ namespace TDFitWebApi.Entities
         private string _connectionString = "Server=localhost;Database=TDFit;Trusted_Connection=True;";
 
         // tabele w bazie danych
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Diet> Diets { get; set; }
        // public DbSet<Day> Days { get; set; }
         public DbSet<Calorie> Calories { get; set; }
@@ -18,10 +20,12 @@ namespace TDFitWebApi.Entities
         // schemat bazy danych
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Role);
+
             modelBuilder.Entity<Diet>()
                 .HasMany(d => d.Calories)
-                .WithOne(c => c.Diet);
-                
+                .WithOne(c => c.Diet);  
 
            /* modelBuilder.Entity<Diet>()
                 .HasMany(d => d.Days)
