@@ -36,9 +36,15 @@ namespace TDFitWebApi.Controllers
             {
                 return BadRequest("Invalid username or password");
             }
-
-            var passwordVerificationResult = passwordHasher.VerifyHashedPassword(user, user.PasswordHash, userLoginDto.Password);
-            if(passwordVerificationResult == PasswordVerificationResult.Failed)
+            try
+            {
+                var passwordVerificationResult = passwordHasher.VerifyHashedPassword(user, user.PasswordHash, userLoginDto.Password);
+                if (passwordVerificationResult == PasswordVerificationResult.Failed)
+                {
+                    return BadRequest("Invalid username or password");
+                }
+            }
+            catch(Exception ex)
             {
                 return BadRequest("Invalid username or password");
             }
