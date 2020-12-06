@@ -14,12 +14,16 @@ namespace TDFitWebApi.Entities
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Diet> Diets { get; set; }
+
+        public DbSet<Training> Tranings { get; set; }
        // public DbSet<Day> Days { get; set; }
         public DbSet<Calorie> Calories { get; set; }
 
         // schemat bazy danych
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Training>();
+                
             modelBuilder.Entity<User>()
                 .HasOne(u => u.Role);
 

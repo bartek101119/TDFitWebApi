@@ -18,6 +18,9 @@ namespace TDFitWebApi
             CreateMap<CalorieDto, Calorie>()
                 .ReverseMap();
 
+            CreateMap<Training, TrainingDto>()
+                .ReverseMap();
+               
 
         }
     }
