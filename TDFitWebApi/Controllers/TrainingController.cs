@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,7 +11,7 @@ using TDFitWebApi.Models;
 
 namespace TDFitWebApi.Controllers
 {
-    [Route("api/training")] // atrybut ten wskazuje ścieżkę do diet
+    [Route("api/training")] // atrybut ten wskazuje ścieżkę do treningu
     [Authorize]
     public class TrainingController : ControllerBase
     {
@@ -23,27 +24,29 @@ namespace TDFitWebApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<TrainingDto>> Get() // metoda ktora zwraca cala liste diet
+        public ActionResult<List<Training>> Get() // metoda ktora zwraca cala liste diet
         {
-            var training = tDFitContext.Tranings
+            var training = tDFitContext.Trainings
                 .ToList(); // pod ta zmienną są dane z bazy
-            var trainingDtos = mapper.Map<List<TrainingDto>>(training);
+            var trainingDtos = mapper.Map<List<Training>>(training);
 
             return Ok(trainingDtos); // zwracam klientowi liste diet /  ze statusem 200 
         }
 
-        [HttpGet("{name}")]
-        public ActionResult<TrainingDto> Get(string name) // metoda ktora zwraca diety i calorie po nazwie
+
+
+        [HttpGet("{id}")]
+        public ActionResult<Training> Get(int id) // metoda ktora zwraca diety i calorie po nazwie
         {
-            var training = tDFitContext.Tranings
-                .FirstOrDefault(m => m.Name.Replace(" ", "-").ToLower() == name.ToLower());
+            var training = tDFitContext.Trainings
+                .FirstOrDefault(m => m.Id == id);
 
             if (training== null)
             {
                 return NotFound();
             }
 
-            var trainingDto = mapper.Map<TrainingDto>(training);
+            var trainingDto = mapper.Map<Training>(training);
             return Ok(trainingDto);
         }
 
@@ -57,19 +60,20 @@ namespace TDFitWebApi.Controllers
 
 
             var training = mapper.Map<Training>(model);
-            tDFitContext.Tranings.Add(training);
+            tDFitContext.Trainings.Add(training);
             tDFitContext.SaveChanges();
 
-            var key = training.Name.Replace(" ", "-").ToLower();
+            var key = training.Id;
 
-            return Created("api/diet/" + key, null);
+            return Created("api/training/" + key, null);
+           
         }
 
-        [HttpPut("{name}")]
-        public ActionResult Put(string name, [FromBody]TrainingDto model)
+        [HttpPut("{id}")]
+        public ActionResult Put(int id, [FromBody]Training model)
         {
-            var training = tDFitContext.Tranings
-                .FirstOrDefault(m => m.Name.Replace(" ", "-").ToLower() == name.ToLower());
+            var training = tDFitContext.Trainings
+                .FirstOrDefault(m => m.Id == id);
 
             if (training == null)
             {
@@ -81,7 +85,7 @@ namespace TDFitWebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            training.Name = model.Name;
+          
             training.Series = model.Series;
             training.Repeat = model.Repeat;
 
@@ -90,12 +94,12 @@ namespace TDFitWebApi.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{name}")]
-        public ActionResult Delete(string name)
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id)
         {
 
-            var training = tDFitContext.Tranings
-                       .FirstOrDefault(m => m.Name.Replace(" ", "-").ToLower() == name.ToLower());
+            var training = tDFitContext.Trainings
+                       .FirstOrDefault(m => m.Id == id);
 
             //czy zasob istnieje
             if (training == null)

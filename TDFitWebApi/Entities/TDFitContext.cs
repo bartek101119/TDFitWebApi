@@ -2,20 +2,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace TDFitWebApi.Entities
 {
     public class TDFitContext : DbContext
     {
-        private string _connectionString = "Server=localhost;Database=TDFit;Trusted_Connection=True;";
+        private string _connectionString = "Server=localhost;Database=TDFitDatabase;Trusted_Connection=True;";
 
         // tabele w bazie danych
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Diet> Diets { get; set; }
 
-        public DbSet<Training> Tranings { get; set; }
+        public DbSet<Training> Trainings { get; set; }
        // public DbSet<Day> Days { get; set; }
         public DbSet<Calorie> Calories { get; set; }
 
@@ -23,10 +24,13 @@ namespace TDFitWebApi.Entities
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Training>();
-                
+
+            modelBuilder.Entity<Training>()
+                 .HasOne(u => u.User);
+
             modelBuilder.Entity<User>()
                 .HasOne(u => u.Role);
-
+                
             modelBuilder.Entity<Diet>()
                 .HasMany(d => d.Calories)
                 .WithOne(c => c.Diet);  

@@ -10,8 +10,8 @@ using TDFitWebApi.Entities;
 namespace TDFitWebApi.Migrations
 {
     [DbContext(typeof(TDFitContext))]
-    [Migration("20201109183007_jakiesmigracje")]
-    partial class jakiesmigracje
+    [Migration("20201210174107_trening2")]
+    partial class trening2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -101,6 +101,32 @@ namespace TDFitWebApi.Migrations
                     b.ToTable("Roles");
                 });
 
+            modelBuilder.Entity("TDFitWebApi.Entities.Training", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Repeat")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Series")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Trainings");
+                });
+
             modelBuilder.Entity("TDFitWebApi.Entities.User", b =>
                 {
                     b.Property<int>("Id")
@@ -141,6 +167,15 @@ namespace TDFitWebApi.Migrations
                     b.HasOne("TDFitWebApi.Entities.Diet", "Diet")
                         .WithMany("Calories")
                         .HasForeignKey("DietId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("TDFitWebApi.Entities.Training", b =>
+                {
+                    b.HasOne("TDFitWebApi.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

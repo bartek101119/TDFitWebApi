@@ -106,6 +106,9 @@ namespace TDFitWebApi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -115,9 +118,14 @@ namespace TDFitWebApi.Migrations
                     b.Property<string>("Series")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Tranings");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Trainings");
                 });
 
             modelBuilder.Entity("TDFitWebApi.Entities.User", b =>
@@ -162,6 +170,13 @@ namespace TDFitWebApi.Migrations
                         .HasForeignKey("DietId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("TDFitWebApi.Entities.Training", b =>
+                {
+                    b.HasOne("TDFitWebApi.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("TDFitWebApi.Entities.User", b =>

@@ -10,8 +10,8 @@ using TDFitWebApi.Entities;
 namespace TDFitWebApi.Migrations
 {
     [DbContext(typeof(TDFitContext))]
-    [Migration("20201109183127_jakiesmigracje2")]
-    partial class jakiesmigracje2
+    [Migration("20201210182914_trening3")]
+    partial class trening3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -101,6 +101,35 @@ namespace TDFitWebApi.Migrations
                     b.ToTable("Roles");
                 });
 
+            modelBuilder.Entity("TDFitWebApi.Entities.Training", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Repeat")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Series")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Trainings");
+                });
+
             modelBuilder.Entity("TDFitWebApi.Entities.User", b =>
                 {
                     b.Property<int>("Id")
@@ -143,6 +172,13 @@ namespace TDFitWebApi.Migrations
                         .HasForeignKey("DietId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("TDFitWebApi.Entities.Training", b =>
+                {
+                    b.HasOne("TDFitWebApi.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("TDFitWebApi.Entities.User", b =>
