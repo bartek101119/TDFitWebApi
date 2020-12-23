@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -78,6 +79,40 @@ namespace TDFitWebApi.Controllers
             tDFitContext.SaveChanges();
 
             return Ok();
+        }
+        [HttpPut("{ChangePassword}")]
+        [Authorize]
+        public ActionResult Put([FromBody]UserLoginDto userLoginDto)
+        {
+          
+
+            var user = tDFitContext.Users
+               .FirstOrDefault(user => user.Email == userLoginDto.Email);
+
+            if (user == null)
+            {
+                return BadRequest("Invalid username or password");
+            }
+            try
+            {
+                var passwordVerificationResult = passwordHasher.VerifyHashedPassword(user, user.PasswordHash, userLoginDto.Password);
+                if (passwordVerificationResult == PasswordVerificationResult.Failed)
+                {
+                    return BadRequest("Invalid username or password");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Invalid username or password");
+            }
+
+            var passwordHash = passwordHasher.HashPassword(user, userLoginDto.newPassword);
+
+            user.PasswordHash = passwordHash;
+
+            tDFitContext.SaveChanges();
+
+            return NoContent();
         }
     }
 }
