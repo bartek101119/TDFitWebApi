@@ -20,7 +20,11 @@ namespace TDFitWebApi
 
             CreateMap<Training, TrainingDto>()
                 .ReverseMap();
-               
+            CreateMap<Summary, SummaryDto>()
+                .ReverseMap();
+            CreateMap<KeepDiet, KeepDietDto>()
+               .ReverseMap();
+
 
         }
     }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TDFitWebApi.Entities;
 
 namespace TDFitWebApi.Migrations
 {
     [DbContext(typeof(TDFitContext))]
-    partial class TDFitContextModelSnapshot : ModelSnapshot
+    [Migration("20201223235426_addSummary")]
+    partial class addSummary
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,48 +84,6 @@ namespace TDFitWebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Diets");
-                });
-
-            modelBuilder.Entity("TDFitWebApi.Entities.KeepDiet", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<double>("Carbohydrate")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Fat")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Kcal")
-                        .HasColumnType("float");
-
-                    b.Property<double>("KcalSum")
-                        .HasColumnType("float");
-
-                    b.Property<double>("MacroSum")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Protein")
-                        .HasColumnType("float");
-
-                    b.Property<string>("TimeOfEat")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("KeepDiets");
                 });
 
             modelBuilder.Entity("TDFitWebApi.Entities.Role", b =>

@@ -20,9 +20,17 @@ namespace TDFitWebApi.Entities
        // public DbSet<Day> Days { get; set; }
         public DbSet<Calorie> Calories { get; set; }
 
+        public DbSet<Summary> Summaries { get; set; }
+
+        public DbSet<KeepDiet> KeepDiets { get; set; }
+
         // schemat bazy danych
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<KeepDiet>();
+
+            modelBuilder.Entity<Summary>();
+
             modelBuilder.Entity<Training>();
 
             modelBuilder.Entity<Training>()
@@ -34,6 +42,8 @@ namespace TDFitWebApi.Entities
             modelBuilder.Entity<Diet>()
                 .HasMany(d => d.Calories)
                 .WithOne(c => c.Diet);  
+
+
 
            /* modelBuilder.Entity<Diet>()
                 .HasMany(d => d.Days)
