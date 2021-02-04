@@ -14,10 +14,17 @@
 
 
   <ItemGroup>
+    <Compile Remove="Controllers\DateDMYController.cs" />
+    <Compile Remove="Controllers\DietPlanController.cs" />
+    <Compile Remove="Entities\DateDMY.cs" />
+    <Compile Remove="Entities\DietPlan.cs" />
     <Compile Remove="Migrations\20201210173358_trening2.cs" />
     <Compile Remove="Migrations\20201210173358_trening2.Designer.cs" />
     <Compile Remove="Migrations\20201210182812_trening3.cs" />
     <Compile Remove="Migrations\20201210182812_trening3.Designer.cs" />
+    <Compile Remove="Models\DateDMYDetailsDto.cs" />
+    <Compile Remove="Models\DateDMYDtocs.cs" />
+    <Compile Remove="Models\DietDMYDto.cs" />
   </ItemGroup>
 
   <ItemGroup>

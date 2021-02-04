@@ -24,9 +24,14 @@ namespace TDFitWebApi.Entities
 
         public DbSet<KeepDiet> KeepDiets { get; set; }
 
+    
+
+
         // schemat bazy danych
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            
+
             modelBuilder.Entity<KeepDiet>();
 
             modelBuilder.Entity<Summary>();
